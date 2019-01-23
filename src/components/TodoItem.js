@@ -6,7 +6,7 @@ class TodoItem extends Component {
         return (
             <div className="todo__item">
                 <input type="checkbox" />
-                <p>Placeholder text here</p>
+                <p>{this.props.onetodo.text}</p>
             </div>
         );
     }
