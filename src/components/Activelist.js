@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
+import Headblock from './Headblock';
 import TodoItem from './TodoItem';
+import List from './List';
 
 const styles = { color: "#998900", fontStyle: 'italic' };
 
 class Activelist extends Component {
     constructor(props) {
         super(props);
+        this.removeTodo = this.removeTodo.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
 
-    todos = this.props.todos.length ? this.props.todos.map((todo, idx) => { return <TodoItem onetodo={todo} key={idx} /> }) : '';
+    removeTodo(id) {
+        console.log('id to remove:', id);
+        this.props.removeTodoById(id);
+    }
 
+    changeStatus(id) {
+        console.log('id to change:', id);
+        this.props.changeStatus(id);
+    }
+    
     render() {
         return (
             <div className="activelist">
-                <h4 style={styles} > It is currently about {this.props.date.getHours() % 12} o'clock!</h4>
-
-                {this.todos}
+                <List todos={this.props.todos}
+                    changeStatus={this.changeStatus}
+                    removeTodoById={this.removeTodo} />
             </div>
         );
     }

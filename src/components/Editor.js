@@ -15,16 +15,20 @@ class Editor extends Component {
     }
 
     handleSubmit(event) {
-        alert('A text was submitted: ' + this.state.text);
         event.preventDefault();
+        const submitted_text = this.refs.todo_text.value;
+        //alert('A text was submitted: ' + submitted_text);
+        
+        this.props.add_todo({text:submitted_text});
+        this.setState({ text: '' });
     }
 
     render() {
         return (
             <div className="editor">
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="text" value={this.state.text} onChange={this.handleChange} />
-                    <input type="submit" />
+                    <input type="text" name="text" ref="todo_text" value={this.state.text} onChange={this.handleChange} />
+                    <input type="submit" onClick={this.handleSubmit} />
                 </form>
             </div>
         );
