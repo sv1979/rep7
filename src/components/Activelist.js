@@ -9,12 +9,18 @@ class Activelist extends Component {
     constructor(props) {
         super(props);
         this.removeTodo = this.removeTodo.bind(this);
+        this.edit_todo_by_id = this.edit_todo_by_id.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
     }
 
     removeTodo(id) {
         console.log('id to remove:', id);
         this.props.removeTodoById(id);
+    }
+
+    edit_todo_by_id(id) {
+        console.log('id to edit:', id);
+        this.props.edit_todo_by_id(id);
     }
 
     changeStatus(id) {
@@ -27,6 +33,7 @@ class Activelist extends Component {
             <div className="activelist">
                 <List todos={this.props.todos}
                     changeStatus={this.changeStatus}
+                    edit_todo_by_id={this.edit_todo_by_id}
                     removeTodoById={this.removeTodo} />
             </div>
         );

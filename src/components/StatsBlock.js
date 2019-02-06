@@ -25,6 +25,7 @@ class StatsBlock extends Component {
             </div>
         );
     }
+    
 }
 
 export default StatsBlock;

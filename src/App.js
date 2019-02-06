@@ -12,22 +12,35 @@ class App extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      todos: []
+      todos: [],
+      editing_todo_id: null,
+      text_to_edit: ''
     };
-    this.addTodoItem = this.addTodoItem.bind(this);
+    this.saveTodoItem = this.saveTodoItem.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
-
+    this.edit_todo_by_id = this.edit_todo_by_id.bind(this);
   }
 
-  addTodoItem(new_todo) {
+  saveTodoItem(new_todo) {
+
     let current_todos = this.state.todos.length ? this.state.todos : [];
-    new_todo.id = this.getNewId();
-    new_todo.status = false;
-    console.log('nt', new_todo);
-    this.setState({
-      todos: [new_todo, ...current_todos]
-    });
+
+    if(this.state.editing_todo_id){
+      let editing_index = current_todos.findIndex(obj => obj.id === this.state.editing_todo_id);
+      current_todos[editing_index].text = new_todo.text;
+      this.setState({
+        editing_todo_id: null,
+        text_to_edit: '',
+        todos: current_todos
+      });
+    } else {
+      new_todo.id = this.getNewId();
+      new_todo.status = false;
+      this.setState({
+        todos: [new_todo, ...current_todos]
+      });
+    }
   }
 
   removeTodo(id) {
@@ -38,6 +51,23 @@ class App extends Component {
     this.setState({
       todos: current_todos
     });
+  }
+
+  edit_todo_by_id(id){
+    this.setState({
+      editing_todo_id: id
+    });
+
+    let todo_to_edit = this.state.todos.length ? this.state.todos.filter((el)=>{
+      if(el.id === id){
+        return el;
+      }     
+    })[0] : null;
+
+    this.setState({
+      text_to_edit: todo_to_edit ? todo_to_edit.text : ''
+    });
+
   }
 
   changeStatus(id) {
@@ -61,11 +91,12 @@ class App extends Component {
     return (
       <div className="App">
         <Headblock date={this.state.date} />
-        <Editor add_todo={this.addTodoItem} />
+        <Editor add_todo={this.saveTodoItem} pre_text={this.state.text_to_edit} />
         <Activelist
           todos={this.state.todos}
           date={this.state.date}
           changeStatus={this.changeStatus}
+          edit_todo_by_id={this.edit_todo_by_id}
           removeTodoById={this.removeTodo} />
         <StatsBlock todos={this.state.todos} />  
       </div>

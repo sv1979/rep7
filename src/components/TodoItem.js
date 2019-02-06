@@ -8,6 +8,7 @@ class TodoItem extends Component {
             status: false,
         };
         this.remove_todo_by_id = this.remove_todo_by_id.bind(this);
+        this.edit_todo_by_id = this.edit_todo_by_id.bind(this);
         this.checkChange = this.checkChange.bind(this);
     }
 
@@ -19,6 +20,10 @@ class TodoItem extends Component {
 
     remove_todo_by_id() {
         this.props.removeTodoById(this.props.onetodo.id);
+    }
+
+    edit_todo_by_id() {
+        this.props.edit_todo_by_id(this.props.onetodo.id);
     }
 
     checkChange(event) {
@@ -39,6 +44,7 @@ class TodoItem extends Component {
                         checked={this.props.onetodo.status} />
                     <span>{this.props.onetodo.text}</span>
                 </label>
+                <button onClick={this.edit_todo_by_id} >Edit</button>
                 <button onClick={this.remove_todo_by_id} >Remove</button>
             </div>
         );
